@@ -21,7 +21,7 @@ app.use(morgan(function (tokens, req, res) {
 
 app.get('/info', (request, response) => {	
 	Person.find({}).then(persons => {
-		response.send('Phonebook has info for '+ persons.length +' people<br/><br/>'+new Date());
+		response.send('Phonebook has info for '+ persons.length +' people<br/><br/>'+new Date())
 	})
 })
 app.get('/api/persons', (request, response) => {
@@ -42,14 +42,14 @@ app.get('/api/persons/:id', (request, response, next)=> {
 })
 app.delete('/api/persons/:id', (request, response,next)=> {
 	Person.findByIdAndDelete(request.params.id)
-			.then(result=> {
-				response.status(204).end()
-			})
-			.catch(error => next(error))
+		.then(()=> {
+			response.status(204).end()
+		})
+		.catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next)=>{
-	const body = request.body;
+	const body = request.body
 
 	const person = new Person({
 		name: body.name,
@@ -57,11 +57,11 @@ app.post('/api/persons', (request, response, next)=>{
 	})
 
 	person.save()
-			.then(savedPerson=>{
-				console.log(`${savedPerson.name} saved to phonebook`);
-				response.json(savedPerson);
-			})
-			.catch(error => next(error))
+		.then(savedPerson=>{
+			console.log(`${savedPerson.name} saved to phonebook`)
+			response.json(savedPerson)
+		})
+		.catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -72,10 +72,10 @@ app.put('/api/persons/:id', (request, response, next) => {
 		number: body.number
 	}
 	Person.findByIdAndUpdate(
-			request.params.id, 
-			person, 
-			{ new: true , runValidators: true, context:'query' }
-		)
+		request.params.id, 
+		person, 
+		{ new: true , runValidators: true, context:'query' }
+	)
 		.then(updatedPerson => {
 			response.json(updatedPerson)
 		})
